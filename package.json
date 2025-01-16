@@ -1,0 +1,15 @@
+{
+  "name": "uber-bagarre",
+  "version": "1.0.0",
+  "description": "Uber Bagarre app environment with a database, a NestJS back-end & a React + Vite front-end application.",
+  "scripts": {
+    "build:back": "docker compose build api_nestjs",
+    "build:front": "docker compose build www_react",
+    "start:db": "docker compose up api_mysql",
+    "start:back": "docker compose up api_nestjs --renew-anon-volumes",
+    "start:front": "docker compose up www_react --renew-anon-volumes",
+    "clean": "docker compose down -v"
+  },
+  "author": "",
+  "license": "ISC"
+}

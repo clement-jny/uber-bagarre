@@ -1,0 +1,64 @@
+services:
+  api_mysql:
+    container_name: api_mysql
+    image: mysql:lts # 8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./api/.mysql:/var/lib/mysql
+      # - ./api/sql:/docker-entrypoint-initdb.d/
+    ports:
+      - ${MYSQL_HOST_PORT}:${MYSQL_DOCKER_PORT}
+    restart: always
+
+  api_phpmyadmin:
+    container_name: api_phpmyadmin
+    image: phpmyadmin:5.2.1
+    environment:
+      PMA_HOST: ${DB_HOST}
+    ports:
+      - ${PMA_HOST_PORT}:${PMA_DOCKER_PORT}
+    links:
+      - api_mysql
+    depends_on:
+      - api_mysql
+    restart: always
+
+  api_nestjs:
+    container_name: api_nestjs
+    build: ./api
+    environment:
+      DB_TYPE: ${DB_TYPE}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${MYSQL_DOCKER_PORT}
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./api:/api_nestjs
+      # - /api_nestjs/node_modules
+    ports:
+      - ${NESTJS_HOST_PORT}:${NESTJS_DOCKER_PORT}
+    depends_on:
+      - api_mysql
+    stdin_open: true
+    tty: true
+    restart: always
+
+  www_react:
+    container_name: www_react
+    build: ./www
+    volumes:
+      - ./www:/www_react
+      # - /www_react/node_modules
+      # - /www_react/.next
+    ports:
+      - ${REACT_HOST_PORT}:${REACT_DOCKER_PORT}
+    depends_on:
+      - api_nestjs
+    stdin_open: true
+    tty: true
+    restart: always
