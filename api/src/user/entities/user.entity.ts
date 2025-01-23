@@ -11,22 +11,13 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   uuid: string;
 
-  @Column({
-    type: 'varchar',
-    length: 255,
-    unique: true,
-    nullable: false,
-  })
+  @Column({ type: 'varchar', length: 255, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: false })
+  @Column({ type: 'varchar', length: 255 })
   password: string;
 
-  @Column({
-    name: 'is_active',
-    type: 'boolean',
-    default: true,
-  })
+  @Column({ name: 'is_active', type: 'boolean', default: true })
   isActive: boolean;
 
   @CreateDateColumn({ name: 'created_date' })

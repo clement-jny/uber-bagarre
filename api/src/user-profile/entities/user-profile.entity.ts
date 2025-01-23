@@ -15,33 +15,16 @@ export class UserProfile {
   @PrimaryGeneratedColumn('uuid')
   uuid: string;
 
-  @Column({
-    type: 'varchar',
-    length: 50,
-    nullable: true,
-  })
+  @Column({ type: 'varchar', length: 50 })
   lastname: string;
 
-  @Column({
-    type: 'varchar',
-    length: 50,
-    nullable: true,
-  })
+  @Column({ type: 'varchar', length: 50 })
   firstname: string;
 
-  @Column({
-    type: 'varchar',
-    length: 50,
-    nullable: true,
-  })
+  @Column({ type: 'varchar', length: 50, unique: true })
   nickname: string;
 
-  @Column({
-    name: 'profile_image',
-    type: 'varchar',
-    length: 255,
-    nullable: true,
-  })
+  @Column({ name: 'profile_image', type: 'varchar', length: 255 })
   profileImage: string;
 
   @Column({ type: 'text' })
