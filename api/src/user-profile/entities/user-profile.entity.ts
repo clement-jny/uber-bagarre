@@ -1,10 +1,12 @@
 import { User } from 'src/user/entities/user.entity';
 import { UserProfileStatus } from 'src/user-profile-status/entities/user-profile-status.entity';
+import { Event } from 'src/event/entitites/event.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -37,6 +39,9 @@ export class UserProfile {
   @OneToOne(() => UserProfileStatus)
   @JoinColumn({ name: 'fk_user_profile_status' })
   userProfileStatus: UserProfileStatus;
+
+  @OneToMany(() => Event, (event: Event) => event.userProfile)
+  events: Event[];
 
   @CreateDateColumn({ name: 'created_date' })
   createdDate: Date;
